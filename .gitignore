@@ -38,3 +38,4 @@ bin/ReplayData.txt
 bin/ReplayParser.exe
 bin/RunReplayParserAndStarcraft.bat
 bin/replaydata
+dependencies/*
