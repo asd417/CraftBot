@@ -39,3 +39,4 @@ bin/ReplayParser.exe
 bin/RunReplayParserAndStarcraft.bat
 bin/replaydata
 dependencies/*
+CraftBot/dependencies/*
