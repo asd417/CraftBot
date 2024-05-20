@@ -26,7 +26,7 @@
     <ClInclude Include="..\src\starterbot\Tools.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\starterbot\main.cpp" />
+    <ClCompile Include="..\src\starterbot\_main.cpp" />
     <ClCompile Include="..\src\starterbot\MapTools.cpp" />
     <ClCompile Include="..\src\starterbot\ReplayParser.cpp" />
     <ClCompile Include="..\src\starterbot\StarterBot.cpp" />
