@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\craftbot\craftBot.cpp" />
     <ClCompile Include="..\src\craftbot\main.cpp" />
     <ClCompile Include="..\src\craftbot\tools\MapTools.cpp" />
     <ClCompile Include="..\src\craftbot\tools\ReplayParser.cpp" />
@@ -146,6 +147,7 @@
     <ClCompile Include="..\src\craftbot\tools\Tools.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\craftbot\craftBot.hpp" />
     <ClInclude Include="..\src\craftbot\tools\Grid.hpp" />
     <ClInclude Include="..\src\craftbot\tools\MapTools.h" />
     <ClInclude Include="..\src\craftbot\tools\ReplayParser.h" />

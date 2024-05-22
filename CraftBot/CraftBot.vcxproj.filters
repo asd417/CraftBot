@@ -33,6 +33,9 @@
     <ClCompile Include="..\src\craftbot\tools\Tools.cpp">
       <Filter>Source Files\tools</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\craftbot\craftBot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\craftbot\tools\Grid.hpp">
@@ -49,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="..\src\craftbot\tools\Tools.h">
       <Filter>Source Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\craftbot\craftBot.hpp">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
