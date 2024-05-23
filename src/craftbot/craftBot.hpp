@@ -1,7 +1,7 @@
 #pragma once
 #include "tools/MapTools.h"
-
 #include <BWAPI.h>
+#include <array>
 
 class CraftBot {
 	
@@ -16,6 +16,7 @@ public:
 	void trainAdditionalWorkers();
 	void buildAdditionalSupply();
 	int  getWorkerCount();
+	BWAPI::Position getCheesePos();
 
 	void drawDebugInformation();
 
@@ -37,4 +38,5 @@ public:
 	
 private:
 	BWAPI::Unit scout = nullptr;
+	std::array<bool, 2> buildOrderCounter = { false, false };
 };

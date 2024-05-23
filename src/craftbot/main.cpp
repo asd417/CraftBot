@@ -1,5 +1,6 @@
 #include <BWAPI.h>
 #include <BWAPI/Client.h>
+#include "craftBot.hpp"
 #include "tools/StarterBot.h"
 #include "tools/ReplayParser.h"
 #include <iostream>
@@ -57,7 +58,7 @@ int main(int argc, char* argv[])
 
 void PlayGame()
 {
-    StarterBot bot;
+    CraftBot bot;
 
     // The main game loop, which continues while we are connected to BWAPI and in a game
     while (BWAPI::BWAPIClient.isConnected() && BWAPI::Broodwar->isInGame())

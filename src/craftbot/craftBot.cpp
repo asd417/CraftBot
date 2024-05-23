@@ -2,6 +2,8 @@
 #include "tools/Tools.h"
 #include "tools/MapTools.h"
 
+#include <tuple>
+
 // Send our idle workers to mine minerals so they don't just stand there
 void CraftBot::sendIdleWorkersToMinerals()
 {
@@ -63,6 +65,41 @@ int CraftBot::getWorkerCount()
     return BWAPI::Broodwar->self()->completedUnitCount(BWAPI::UnitTypes::Enum::Protoss_Probe);
 }
 
+//Distance squared
+int distanceSq(int x1, int y1, int x2, int y2) {
+    return (x2 - x1) ^ 2 + (y2 - y1) ^ 2;
+}
+
+//We are using (4)Python.scx
+// cheese spots: 
+// south: 2192, 3491
+// north: 1573 557
+// west: 908 1866
+// east: 3001 1856
+// Out of these positions, return the furthest one 
+BWAPI::Position CraftBot::getCheesePos()
+{
+    BWAPI::TilePosition basePos = BWAPI::Broodwar->self()->getStartLocation();
+    BWAPI::Position pixelPos = {basePos.x * 32, basePos.y * 32};
+    int maxDist = 0;
+    int maxDistPos = 0;
+    std::array<BWAPI::Position, 4> cheeseSpots = {
+        BWAPI::Position(2192,3491),
+        {1573, 557},
+        {908, 1866},
+        {3001, 1856}
+    };
+    for (int i = 0; i < 4;i++) {
+        int newDist = distanceSq(cheeseSpots[i].x, cheeseSpots[i].y, pixelPos.x, pixelPos.y);
+        if (newDist > maxDist) {
+            maxDist = newDist;
+            maxDistPos = i;
+        }
+    }
+    
+    return cheeseSpots[maxDistPos];
+}
+
 // Draw some relevent information to the screen to help us debug the bot
 void CraftBot::drawDebugInformation()
 {
@@ -82,12 +119,35 @@ bool CraftBot::buildGateWay()
     return Tools::BuildBuilding(BWAPI::UnitTypes::Enum::Protoss_Gateway);
 }
 
+
+
+void CraftBot::onStart()
+{
+    // Set our BWAPI options here    
+    BWAPI::Broodwar->setLocalSpeed(10);
+    BWAPI::Broodwar->setFrameSkip(0);
+
+    // Enable the flag that tells BWAPI top let users enter input while bot plays
+    BWAPI::Broodwar->enableFlag(BWAPI::Flag::UserInput);
+
+    // Call MapTools OnStart
+    m_mapTools.onStart();
+    sendIdleWorkersToMinerals();
+}
+
 void CraftBot::onFrame()
 {
     m_mapTools.onFrame();
-
-    sendIdleWorkersToMinerals();
+    int height = m_mapTools.height();
+    int width = m_mapTools.width();
     
+    
+    if (scout != nullptr) {
+        BWAPI::Position pos = scout->getPosition();
+        std::cout << "Map Size " + std::to_string(width) + " " + std::to_string(height) + " Scouting Probe position at " + std::to_string(pos.x) + " " + std::to_string(pos.y) + "\n";
+    }
+    //map tile position is (unitPosition / 32)
+
     int workers = getWorkerCount();
     if (workers < 8) {
         trainAdditionalWorkers();
@@ -95,13 +155,69 @@ void CraftBot::onFrame()
         drawDebugInformation();
         return;
     }
+    
+
     switch (workers)
     {
     case 8:
-        buildPylon();
+        if (!buildOrderCounter[0]) {
+            buildOrderCounter[0] = buildPylon();
+            std::cout << "Pylon Built: " + std::to_string(buildOrderCounter[0]) + "\n";
+            trainAdditionalWorkers();
+        }
         break;
     case 9:
-        if(scout != nullptr) scout = Tools::BuildBuildingGetBuilder(BWAPI::UnitTypes::Enum::Protoss_Gateway);
+        if (!buildOrderCounter[1]) {
+            scout = Tools::BuildBuildingGetBuilder(BWAPI::UnitTypes::Enum::Protoss_Gateway);
+            buildOrderCounter[1] = scout != nullptr;
+            std::cout << "Built Gateway and set scouter probe\n";
+            if (scout != nullptr) {
+                BWAPI::Position pos = scout->getPosition();
+                std::cout << "Map Height: " + std::to_string(height) + "\n";
+                std::cout << "Map Width: " + std::to_string(width) + "\n";
+                std::cout << "Scouting Probe position at " + std::to_string(pos.x) + " " + std::to_string(pos.y) + "\n";
+                BWAPI::Position newpos = { width * 32 - pos.x, height * 32 - pos.y };
+                std::cout << "Sending Scout to the opposite side of the map: " + std::to_string(width - pos.x) + " " + std::to_string(height - pos.y) + "\n";
+                scout->attack(newpos);
+            }
+        }
+        break;
     }
+    drawDebugInformation();
+}
 
+void CraftBot::onEnd(bool isWinner)
+{
+}
+
+void CraftBot::onUnitDestroy(BWAPI::Unit unit)
+{
+}
+
+void CraftBot::onUnitMorph(BWAPI::Unit unit)
+{
+}
+
+void CraftBot::onSendText(std::string text)
+{
+}
+
+void CraftBot::onUnitCreate(BWAPI::Unit unit)
+{
+}
+
+void CraftBot::onUnitComplete(BWAPI::Unit unit)
+{
+}
+
+void CraftBot::onUnitShow(BWAPI::Unit unit)
+{
+}
+
+void CraftBot::onUnitHide(BWAPI::Unit unit)
+{
+}
+
+void CraftBot::onUnitRenegade(BWAPI::Unit unit)
+{
 }
