@@ -14,7 +14,9 @@ namespace Tools
 
     bool BuildBuilding(BWAPI::UnitType type);
     bool BuildBuilding(BWAPI::UnitType type, BWAPI::Position p);
+    bool BuildBuilding(BWAPI::UnitType type, BWAPI::Position p, BWAPI::Unit unit);
     BWAPI::Unit BuildBuildingGetBuilder(BWAPI::UnitType type);
+    BWAPI::Unit BuildBuildingGetBuilder(BWAPI::UnitType type, BWAPI::Position p);
 
     void DrawUnitBoundingBoxes();
     void DrawUnitCommands();

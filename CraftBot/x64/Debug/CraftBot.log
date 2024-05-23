@@ -1,2 +1,3 @@
 ﻿  craftBot.cpp
-  CraftBot.vcxproj -> C:\Users\locti\OneDrive\Documents\edu\Summer 2024\CraftBot\CraftBot\CraftBot.exe
+C:\Users\ylee5\Documents\ylee5_summer2024\CraftBot\src\craftbot\craftBot.hpp(9,17): warning C4091: 'virtual ': ignored on left of 'CraftBot::BuildingQueueStruct' when no variable is declared
+  CraftBot.vcxproj -> C:\Users\ylee5\Documents\ylee5_summer2024\CraftBot\CraftBot\CraftBot.exe

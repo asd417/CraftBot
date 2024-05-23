@@ -6,13 +6,23 @@
 class CraftBot {
 	
 	MapTools m_mapTools;
+	virtual struct BuildingQueueStruct {
+	public:
+		BWAPI::Unit builder;
+		BWAPI::UnitType building;
+		BWAPI::Position buildPosition;
+		void(*onCompleteFunction)(CraftBot*);
+	};
 
 public:
+	std::vector<BuildingQueueStruct> buildQueue;
+	std::array<bool, 2> buildOrderCounter = { false, false };
 
 	CraftBot() = default;
 
 	// helper functions to get you started with bot programming and learn the API
 	void sendIdleWorkersToMinerals();
+	void sendIdleWorkersAtBaseToMinerals();
 	void trainAdditionalWorkers();
 	void buildAdditionalSupply();
 	int  getWorkerCount();
@@ -38,5 +48,4 @@ public:
 	
 private:
 	BWAPI::Unit scout = nullptr;
-	std::array<bool, 2> buildOrderCounter = { false, false };
 };
